@@ -5,6 +5,9 @@ import { secret } from './jwt';
 import * as IO from 'socket.io';
 import * as socketIoJwtAuth from 'socketio-jwt-auth';
 import { authorizationChecker } from './lib/helpers/authorizationChecker';
+import logger from './logger';
+
+// import winston from 'winston';
 
 import Service from './service/controller';
 
@@ -37,10 +40,9 @@ io.on('connect', (socket) => {
   });
 });
 
-// TODO: install logger tool
 try {
   server.listen(port);
-  console.log(`Listening on port ${port}`);
+  logger.log('info', `Listening on port ${port}`);
 } catch (err) {
-  console.log(err);
+  logger.log('error', { error: err });
 }

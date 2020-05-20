@@ -20,6 +20,7 @@
     "@types/koa-bodyparser": "^4.3.0",
     "@types/koa-multer": "^1.0.0",
     "@types/koa-router": "^7.4.1",
+    "@types/winston": "^2.4.4",
     "bcrypt": "^4.0.1",
     "class-transformer": "^0.2.3",
     "class-validator": "^0.12.2",
@@ -34,7 +35,8 @@
     "socket.io": "^2.3.0",
     "socketio-jwt-auth": "^0.1.0",
     "ts-node": "^8.10.1",
-    "typescript": "^3.9.3"
+    "typescript": "^3.9.3",
+    "winston": "^3.2.1"
   },
   "prettier": {
     "printWidth": 80,
