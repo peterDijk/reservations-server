@@ -1,7 +1,7 @@
 let winston = require('winston');
 
 export default winston.createLogger({
-  level: 'info',
+  // level: 'info',
   format: winston.format.combine(
     winston.format.timestamp(),
     winston.format.printf((info) => {

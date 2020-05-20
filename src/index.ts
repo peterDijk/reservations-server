@@ -6,6 +6,7 @@ import * as IO from 'socket.io';
 import * as socketIoJwtAuth from 'socketio-jwt-auth';
 import { authorizationChecker } from './lib/helpers/authorizationChecker';
 import logger from './logger';
+import setupDb from './db';
 
 // import winston from 'winston';
 
@@ -40,9 +41,12 @@ io.on('connect', (socket) => {
   });
 });
 
-try {
-  server.listen(port);
-  logger.log('info', `Listening on port ${port}`);
-} catch (err) {
-  logger.log('error', { error: err });
-}
+setupDb().then(() => {
+  try {
+    server.listen(port);
+    logger.info(`Listening on port ${port}`);
+  } catch (err) {
+    logger.error({ error: err });
+    logger.log('error', { error: err });
+  }
+});
