@@ -19,7 +19,8 @@ const port = process.env.PORT || 4000;
 
 useKoaServer(app, {
   cors: true,
-  controllers: [Service],
+  // controllers: [Service],
+  controllers: ['./controller/**/*.ts'],
   authorizationChecker,
 });
 
