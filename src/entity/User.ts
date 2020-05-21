@@ -2,6 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from 'typeorm';
 import { IsString, MinLength, IsEmail } from 'class-validator';
 import { Exclude } from 'class-transformer';
 import * as bcrypt from 'bcrypt';
+import logger from '../__init__/logger';
 
 @Entity()
 class User extends BaseEntity {
@@ -11,20 +12,16 @@ class User extends BaseEntity {
   @IsString()
   @MinLength(2)
   @Column('text')
-  memberNumber: string;
+  userName: string;
 
-  @IsString()
-  @MinLength(2)
-  @Column('text')
+  @Column('text', { nullable: true })
   firstName: string;
 
-  @IsString()
-  @MinLength(2)
-  @Column('text')
+  @Column('text', { nullable: true })
   lastName: string;
 
   @IsEmail()
-  @Column('text')
+  @Column('text', { nullable: true })
   email: string;
 
   @IsString()
@@ -43,8 +40,12 @@ class User extends BaseEntity {
   //   tickets: Ticket[]
 
   async setPassword(rawPassword: string) {
-    const hash = await bcrypt.hash(rawPassword, 10);
-    this.password = hash;
+    try {
+      const hash = await bcrypt.hash(rawPassword, 10);
+      this.password = hash;
+    } catch (e) {
+      logger.error(e);
+    }
   }
 
   checkPassword(rawPassword: string): Promise<boolean> {

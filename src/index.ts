@@ -10,6 +10,8 @@ import logger from './__init__/logger';
 import setupDb from './__init__/db';
 
 import Service from './controller/Service';
+import Login from './controller/Login';
+import User from './controller/User';
 
 const app = new Koa();
 const server = new Server(app.callback());
@@ -19,16 +21,19 @@ const port = process.env.PORT || 4000;
 
 useKoaServer(app, {
   cors: true,
-  // controllers: [Service],
-  controllers: ['./controller/**/*.ts'],
+  controllers: [Service, Login, User],
+  // controllers: [__dirname + '/controller/*.ts'],
   authorizationChecker,
 });
 
 io.use(
   socketIoJwtAuth.authenticate({ secret }, async (payload, done) => {
-    // const user = await User.findOne(payload.id);
-    // if (user) done(null, user); else {
-    done(null, false, `Invalid JWT user ID`);
+    const user = await User.findOne(payload.id);
+    if (user) {
+      done(null, user);
+    } else {
+      done(null, false, `Invalid JWT user ID`);
+    }
   }),
 );
 
