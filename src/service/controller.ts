@@ -22,4 +22,12 @@ export default class ServiceController {
     logger.debug('record added to database');
     return newCheck.save();
   }
+
+  @Get('/health/list')
+  async getChecks() {
+    const checks = await Service.find({
+      order: { ['dateCreated']: 'DESC' },
+    });
+    return { checks };
+  }
 }
