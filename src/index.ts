@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { useKoaServer } from 'routing-controllers';
 import * as Koa from 'koa';
 import { Server } from 'http';
@@ -7,8 +8,6 @@ import * as socketIoJwtAuth from 'socketio-jwt-auth';
 import { authorizationChecker } from './lib/helpers/authorizationChecker';
 import logger from './logger';
 import setupDb from './db';
-
-// import winston from 'winston';
 
 import Service from './service/controller';
 

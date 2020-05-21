@@ -1,4 +1,5 @@
-import { JsonController, Get } from 'routing-controllers';
+import { JsonController, Get, Req } from 'routing-controllers';
+import { Request } from 'koa';
 import logger from '../logger';
 
 import Service from './entity';
@@ -6,11 +7,12 @@ import Service from './entity';
 @JsonController()
 export default class ServiceController {
   @Get('/health')
-  async getHealth() {
+  getHealth(@Req() request: Request) {
     logger.log('info', 'request received at /health');
 
     return {
       health: 'ok',
+      request: JSON.stringify(request),
     };
   }
 
