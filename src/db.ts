@@ -4,7 +4,7 @@ import { NamingStrategyInterface } from 'typeorm/naming-strategy/NamingStrategyI
 import { snakeCase } from 'typeorm/util/StringUtils';
 import logger from './logger';
 
-import Service from './service/entity';
+import Service from './entity/Service';
 
 class CustomNamingStrategy extends DefaultNamingStrategy implements NamingStrategyInterface {
   tableName(targetName: string, userSpecifiedName: string): string {
@@ -29,7 +29,7 @@ export default () =>
     type: 'postgres',
     url: process.env.DATABASE_URL || 'postgres://postgres:secret@localhost:5432/postgres',
     entities: [Service],
-    synchronize: false, // careful with this in production!
+    synchronize: false,
     logging: true,
     namingStrategy: new CustomNamingStrategy(),
   }).then(() => logger.log('info', 'Connected to Postgres with TypeORM'));

@@ -2,7 +2,7 @@ import { JsonController, Get, Req } from 'routing-controllers';
 import { Request } from 'koa';
 import logger from '../logger';
 
-import Service from './entity';
+import Service from '../entity/Service';
 
 @JsonController()
 export default class ServiceController {

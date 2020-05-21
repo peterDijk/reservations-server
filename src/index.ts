@@ -9,7 +9,7 @@ import { authorizationChecker } from './lib/helpers/authorizationChecker';
 import logger from './logger';
 import setupDb from './db';
 
-import Service from './service/controller';
+import Service from './controller/Service';
 
 const app = new Koa();
 const server = new Server(app.callback());
