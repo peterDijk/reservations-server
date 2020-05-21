@@ -23,7 +23,5 @@ export class CustomNamingStrategy extends DefaultNamingStrategy implements Namin
 }
 
 export default async () => {
-  const connectionOptions = await getConnectionOptions();
-
   createConnection().then(() => logger.log('info', 'Connected to Postgres with TypeORM'));
 };
