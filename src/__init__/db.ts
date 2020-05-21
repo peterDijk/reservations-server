@@ -4,7 +4,7 @@ import { NamingStrategyInterface } from 'typeorm/naming-strategy/NamingStrategyI
 import { snakeCase } from 'typeorm/util/StringUtils';
 import logger from './logger';
 
-class CustomNamingStrategy extends DefaultNamingStrategy implements NamingStrategyInterface {
+export class CustomNamingStrategy extends DefaultNamingStrategy implements NamingStrategyInterface {
   tableName(targetName: string, userSpecifiedName: string): string {
     return userSpecifiedName ? userSpecifiedName : snakeCase(targetName) + 's';
   }
@@ -25,7 +25,5 @@ class CustomNamingStrategy extends DefaultNamingStrategy implements NamingStrate
 export default async () => {
   const connectionOptions = await getConnectionOptions();
 
-  createConnection({ ...connectionOptions, namingStrategy: new CustomNamingStrategy() }).then(() =>
-    logger.log('info', 'Connected to Postgres with TypeORM'),
-  );
+  createConnection().then(() => logger.log('info', 'Connected to Postgres with TypeORM'));
 };
