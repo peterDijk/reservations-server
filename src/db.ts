@@ -6,20 +6,13 @@ import logger from './logger';
 
 import Service from './service/entity';
 
-class CustomNamingStrategy extends DefaultNamingStrategy
-  implements NamingStrategyInterface {
+class CustomNamingStrategy extends DefaultNamingStrategy implements NamingStrategyInterface {
   tableName(targetName: string, userSpecifiedName: string): string {
     return userSpecifiedName ? userSpecifiedName : snakeCase(targetName) + 's';
   }
 
-  columnName(
-    propertyName: string,
-    customName: string,
-    embeddedPrefixes: string[],
-  ): string {
-    return snakeCase(
-      embeddedPrefixes.concat(customName ? customName : propertyName).join('_'),
-    );
+  columnName(propertyName: string, customName: string, embeddedPrefixes: string[]): string {
+    return snakeCase(embeddedPrefixes.concat(customName ? customName : propertyName).join('_'));
   }
 
   columnNameCustomized(customName: string): string {
@@ -34,11 +27,9 @@ class CustomNamingStrategy extends DefaultNamingStrategy
 export default () =>
   createConnection({
     type: 'postgres',
-    url:
-      process.env.DATABASE_URL ||
-      'postgres://postgres:secret@localhost:5432/postgres',
+    url: process.env.DATABASE_URL || 'postgres://postgres:secret@localhost:5432/postgres',
     entities: [Service],
-    synchronize: true, // careful with this in production!
+    synchronize: false, // careful with this in production!
     logging: true,
     namingStrategy: new CustomNamingStrategy(),
   }).then(() => logger.log('info', 'Connected to Postgres with TypeORM'));
