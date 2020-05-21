@@ -2,12 +2,12 @@ import 'reflect-metadata';
 import { useKoaServer } from 'routing-controllers';
 import * as Koa from 'koa';
 import { Server } from 'http';
-import { secret } from './jwt';
+import { secret } from './__init__/jwt';
 import * as IO from 'socket.io';
 import * as socketIoJwtAuth from 'socketio-jwt-auth';
 import { authorizationChecker } from './lib/helpers/authorizationChecker';
-import logger from './logger';
-import setupDb from './db';
+import logger from './__init__/logger';
+import setupDb from './__init__/db';
 
 import Service from './controller/Service';
 

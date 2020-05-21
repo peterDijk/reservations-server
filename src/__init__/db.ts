@@ -1,10 +1,8 @@
-import { createConnection } from 'typeorm';
+import { createConnection, getConnectionOptions } from 'typeorm';
 import { DefaultNamingStrategy } from 'typeorm/naming-strategy/DefaultNamingStrategy';
 import { NamingStrategyInterface } from 'typeorm/naming-strategy/NamingStrategyInterface';
 import { snakeCase } from 'typeorm/util/StringUtils';
 import logger from './logger';
-
-import Service from './entity/Service';
 
 class CustomNamingStrategy extends DefaultNamingStrategy implements NamingStrategyInterface {
   tableName(targetName: string, userSpecifiedName: string): string {
@@ -24,12 +22,10 @@ class CustomNamingStrategy extends DefaultNamingStrategy implements NamingStrate
   }
 }
 
-export default () =>
-  createConnection({
-    type: 'postgres',
-    url: process.env.DATABASE_URL || 'postgres://postgres:secret@localhost:5432/postgres',
-    entities: [Service],
-    synchronize: false,
-    logging: true,
-    namingStrategy: new CustomNamingStrategy(),
-  }).then(() => logger.log('info', 'Connected to Postgres with TypeORM'));
+export default async () => {
+  const connectionOptions = await getConnectionOptions();
+
+  createConnection({ ...connectionOptions, namingStrategy: new CustomNamingStrategy() }).then(() =>
+    logger.log('info', 'Connected to Postgres with TypeORM'),
+  );
+};

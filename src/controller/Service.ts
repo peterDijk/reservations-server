@@ -1,6 +1,6 @@
 import { JsonController, Get, Req } from 'routing-controllers';
 import { Request } from 'koa';
-import logger from '../logger';
+import logger from '../__init__/logger';
 
 import Service from '../entity/Service';
 

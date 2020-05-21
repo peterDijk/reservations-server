@@ -1,5 +1,5 @@
 import { Action, BadRequestError } from 'routing-controllers';
-import { verify } from '../../jwt';
+import { verify } from '../../__init__/jwt';
 
 export const authorizationChecker = (action: Action) => {
   const header: string = action.request.headers.authorization;

@@ -1,12 +1,8 @@
-{
-   "type": "mysql",
-   "host": "localhost",
-   "port": 3306,
-   "username": "test",
-   "password": "test",
-   "database": "test",
-   "synchronize": true,
-   "logging": false,
+module.exports = {
+   "type": "postgres",
+   "url": process.env.DATABASE_URL || "postgres://postgres:secret@localhost:5432/postgres",
+   "synchronize": false,
+   "logging": true,
    "entities": [
       "src/entity/**/*.ts"
    ],
