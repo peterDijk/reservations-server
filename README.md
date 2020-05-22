@@ -33,4 +33,4 @@
 
 - user reg > email confirmation
 - Koa > use all controllers in folder controller/*.ts
-- start script > use build target/index.js ?
+- start script > use build target/index.js. ormconfig needs change (naming strategy)
