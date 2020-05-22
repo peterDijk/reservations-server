@@ -25,6 +25,7 @@
       "bcrypt": "^4.0.1",
       "class-transformer": "^0.2.3",
       "class-validator": "^0.12.2",
+      "dotenv": "^8.2.0",
       "http": "0.0.1-security",
       "jsonwebtoken": "^8.5.1",
       "kcors": "^2.2.2",
@@ -51,7 +52,6 @@
    "devDependencies": {
       "@types/jsonwebtoken": "^8.5.0",
       "@types/node": "^8.0.29",
-      "dotenv": "^8.2.0",
       "ts-node": "3.3.0",
       "typescript": "3.3.3333"
    }
