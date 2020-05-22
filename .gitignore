@@ -1,4 +1,4 @@
 node_modules
-target
+build
 app.log
 .env

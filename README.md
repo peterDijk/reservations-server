@@ -12,11 +12,10 @@
 
 ## Endpoints:
 
-`GET /setup` - only continues when User count = 0 (throws Error when user count > 0)
 
-returns instructions for `POST /setup`
-
-`POST /setup` - sets up first `superadmin` user with chosen password and email
+`POST /setup` 
+- only continues when User count = 0
+- sets up first `superadmin` user with chosen password and email
 
 `POST /users (authorized)` - register new user
 
