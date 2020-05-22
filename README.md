@@ -20,9 +20,9 @@ returns instructions for `POST /setup`
 
 `POST /users (authorized)` - register new user
 
-`POST /resetpwd`  - sends email to user's emailaddress with token to reset
+`POST /reset`  - sends email to user's emailaddress with token to reset
 
-`POST /resetpwd/:token` - saves new password for account (info in token)
+`POST /reset/:token` - saves new password for account (info in token)
 
 `GET /health` - health check
 
@@ -32,5 +32,5 @@ returns instructions for `POST /setup`
 
 ### TODO
 
-- user reg > email confirmation
+- user registration > email confirmation
 - Koa > use all controllers in folder controller/*.ts
