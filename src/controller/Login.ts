@@ -12,7 +12,7 @@ interface AuthenticatePayload {
 export default class LoginController {
   @Post('/login')
   async authenticate(@Body() { username, password }: AuthenticatePayload) {
-    const user = await User.findOne({ where: { userName: username } });
+    const user = await User.findOne({ where: { username } });
     if (!user || !user.id) throw new BadRequestError('A user with this username does not exist');
 
     if (!(await user.checkPassword(password)))
@@ -25,6 +25,6 @@ export default class LoginController {
     };
 
     const jwt = sign(jwtObject);
-    return { jwt };
+    return { token: jwt };
   }
 }

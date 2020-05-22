@@ -12,7 +12,7 @@ class User extends BaseEntity {
   @IsString()
   @MinLength(2)
   @Column('text')
-  userName: string;
+  username: string;
 
   @Column('text', { nullable: true })
   firstName: string;
@@ -21,7 +21,7 @@ class User extends BaseEntity {
   lastName: string;
 
   @IsEmail()
-  @Column('text', { nullable: true })
+  @Column('text', { nullable: false })
   email: string;
 
   @IsString()
@@ -41,7 +41,7 @@ class User extends BaseEntity {
 
   async setPassword(rawPassword: string) {
     try {
-      const hash = await bcrypt.hash(rawPassword, 10);
+      const hash = await bcrypt.hash(rawPassword, 12);
       this.password = hash;
     } catch (e) {
       logger.error(e);

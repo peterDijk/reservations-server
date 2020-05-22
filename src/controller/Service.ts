@@ -1,4 +1,4 @@
-import { JsonController, Get, Req } from 'routing-controllers';
+import { JsonController, Get, Req, Authorized } from 'routing-controllers';
 import { Request } from 'koa';
 import logger from '../__init__/logger';
 
@@ -16,7 +16,7 @@ export default class ServiceController {
     };
   }
 
-  // @Authorized()
+  @Authorized()
   @Get('/health/add')
   async addCheck() {
     const newCheck = await Service.create({ message: 'health check ok' });
