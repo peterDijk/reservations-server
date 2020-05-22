@@ -4,7 +4,7 @@
 - TypeORM
 - Postgres
 - Heroku release phase (run migrations)
-- store password encrypted with `bcrypt`
+- passwords stored encrypted
 
 ## 
 
@@ -19,9 +19,9 @@
 
 `POST /users (authorized)` - register new user
 
-`POST /resetpwd`  - sends email to user's emailaddress with token to reset
+`POST /reset`  - sends email to user's emailaddress with token to reset
 
-`POST /resetpwd/:token` - saves new password for account (info in token)
+`POST /reset/:token` - saves new password for account (info in token)
 
 `GET /health` - health check
 
