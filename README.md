@@ -34,3 +34,4 @@ returns instructions for `POST /setup`
 
 - user reg > email confirmation
 - Koa > use all controllers in folder controller/*.ts
+- start script > use build target/index.js ?
