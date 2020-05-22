@@ -12,6 +12,7 @@ import setupDb from './__init__/db';
 import Service from './controller/Service';
 import Login from './controller/Login';
 import User from './controller/User';
+import Setup from './controller/Setup';
 
 const app = new Koa();
 const server = new Server(app.callback());
@@ -21,7 +22,7 @@ const port = process.env.PORT || 4000;
 
 useKoaServer(app, {
   cors: true,
-  controllers: [Service, Login, User],
+  controllers: [Setup, Service, Login, User],
   // controllers: [__dirname + '/controller/*.ts'],
   authorizationChecker,
 });

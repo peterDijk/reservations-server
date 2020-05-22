@@ -27,7 +27,7 @@ class User extends BaseEntity {
   @IsString()
   @MinLength(5)
   @Column('text')
-  @Exclude({ toPlainOnly: true }) // what does this do ? transformation?
+  @Exclude({ toPlainOnly: true })
   password: string;
 
   @Column('boolean', { nullable: false, default: false })
