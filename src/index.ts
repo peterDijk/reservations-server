@@ -1,3 +1,6 @@
+const dotenv = require('dotenv');
+dotenv.config();
+
 import 'reflect-metadata';
 import { useKoaServer } from 'routing-controllers';
 import * as Koa from 'koa';

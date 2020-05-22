@@ -6,6 +6,10 @@
 - Heroku release phase (run migrations)
 - store password encrypted with `bcrypt`
 
+## 
+
+- remember to set environment variable for `JWT_SECRET`
+
 ## Endpoints:
 
 `GET /setup` - only continues when User count = 0 (throws Error when user count > 0)

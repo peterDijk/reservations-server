@@ -1,6 +1,6 @@
 import * as jwt from 'jsonwebtoken';
 
-export const secret = process.env.JWT_SECRET || 'dev-secret';
+export const secret = process.env.JWT_SECRET;
 const ttl = 3600 * 4; // our JWT tokens are valid for 4 hours
 
 interface JwtPayload {
