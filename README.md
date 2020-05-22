@@ -32,5 +32,5 @@
 ### TODO
 
 - user reg > email confirmation
-- Koa > use all controllers in folder controller/*.ts
+- check Authorized with roles
 - start script > use build target/index.js. ormconfig needs change (naming strategy)

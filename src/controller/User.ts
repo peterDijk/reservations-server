@@ -12,6 +12,7 @@ import User from '../entity/User';
 
 @JsonController()
 export default class UserController extends BaseEntity {
+  @Authorized()
   @Post('/users')
   async signup(
     @BodyParam('firstName') firstName: string,
