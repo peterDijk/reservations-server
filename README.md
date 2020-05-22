@@ -29,3 +29,8 @@ returns instructions for `POST /setup`
 `POST /health/add` - adds check record to database
 
 `GET /health/list` - returns list of health check records
+
+### TODO
+
+- user reg > email confirmation
+- Koa > use all controllers in folder controller/*.ts

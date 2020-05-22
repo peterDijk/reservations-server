@@ -1,13 +1,12 @@
 import * as jwt from 'jsonwebtoken';
 
 export const secret = process.env.JWT_SECRET;
-const ttl = 3600 * 4; // our JWT tokens are valid for 4 hours
 
 interface JwtPayload {
   id: number;
 }
 
-export const sign = (data: JwtPayload) =>
+export const sign = (data: JwtPayload, ttl = '4h') =>
   jwt.sign(data, secret, { expiresIn: ttl });
 
 export const verify = (token: string): JwtPayload =>

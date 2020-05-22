@@ -6,7 +6,7 @@ import {
   BadRequestError,
 } from 'routing-controllers';
 import User from '../entity/User';
-import { sign } from '../__init__/jwt';
+import { sign, verify } from '../__init__/jwt';
 
 interface ResetRequestInput {
   email: string;
@@ -29,13 +29,32 @@ export default class ResetPassword {
       id: user.id,
     };
 
-    const token = sign(jwtObject);
+    const token = sign(jwtObject, '30m');
+
     return { token };
+    // return { message: `token has been emailed to ${user.email}` };
   }
 
   @Post('/reset/:token')
   async resetPasswd(
     @Param('token') token: string,
     @Body() { password }: ResetPasswdInput,
-  ) {}
+  ) {
+    const jwtPayload = verify(token);
+
+    if (!jwtPayload) {
+      // actually, verify will throw BadRequest already
+      throw new BadRequestError('token invalid');
+    }
+
+    const user = await User.findOne({ where: { id: jwtPayload.id } });
+
+    if (!user) {
+      return { message: 'User does not exist' };
+    }
+
+    await user.setPassword(password);
+
+    return user.save();
+  }
 }
