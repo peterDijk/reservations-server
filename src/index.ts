@@ -12,7 +12,7 @@ import socketioInit from './__init__/socketio';
 const port = process.env.PORT || 4000;
 
 const server = createKoaServer({
-  cors: true,
+  cors: false,
   controllers: [__dirname + '/controller/*.ts'],
   authorizationChecker,
 });

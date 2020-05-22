@@ -24,9 +24,13 @@ export default class UserController extends BaseEntity {
     if (!username || !password) {
       throw new BadRequestError('Provide at least a username and password');
     }
-    const userExists = await User.count({ where: { username } });
+    const userExists = await User.count({
+      where: [{ username }, { email }],
+    });
     if (userExists > 0) {
-      throw new BadRequestError('User with that username already exists');
+      throw new BadRequestError(
+        'User with that username or email already exists',
+      );
     }
 
     const entity = User.create({ firstName, lastName, username, email });

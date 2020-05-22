@@ -3,6 +3,7 @@ import { Request } from 'koa';
 import logger from '../__init__/logger';
 
 import Service from '../entity/Service';
+import { sgMail } from '../lib/helpers/sendmail';
 
 @JsonController()
 export default class ServiceController {
