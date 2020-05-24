@@ -3,6 +3,7 @@ import { IsString, MinLength, IsEmail } from 'class-validator';
 import { Exclude } from 'class-transformer';
 import * as bcrypt from 'bcrypt';
 import logger from '../__init__/logger';
+import { Role } from '../types';
 
 @Entity()
 class User extends BaseEntity {
@@ -29,6 +30,9 @@ class User extends BaseEntity {
   @Column('text')
   @Exclude({ toPlainOnly: true })
   password: string;
+
+  @Column('text', { nullable: false, default: Role.USER })
+  roles: Role[];
 
   @Column('boolean', { nullable: false, default: false })
   isAdmin: boolean;

@@ -5,10 +5,7 @@ import {
   BaseEntity,
   OneToMany,
 } from 'typeorm';
-import { IsString, MinLength, IsEmail } from 'class-validator';
-import { Exclude } from 'class-transformer';
-import * as bcrypt from 'bcrypt';
-import logger from '../__init__/logger';
+import { IsString, MinLength } from 'class-validator';
 import Location from './Location';
 import User from './User';
 
@@ -28,7 +25,7 @@ class Account extends BaseEntity {
   @Column('text')
   administrator: User;
 
-  @OneToMany((_) => Location, (locations) => locations.account)
+  @OneToMany((type) => Location, (location) => location.account)
   locations: Location[];
 }
 

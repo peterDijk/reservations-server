@@ -4,7 +4,10 @@ dotenv.config();
 import 'reflect-metadata';
 import { createKoaServer } from 'routing-controllers';
 import * as IO from 'socket.io';
-import { authorizationChecker } from './lib/helpers/authorizationChecker';
+import {
+  authorizationChecker,
+  currentUserChecker,
+} from './lib/helpers/loginCheckers';
 import logger from './__init__/logger';
 import setupDb from './__init__/db';
 import socketioInit from './__init__/socketio';
@@ -15,6 +18,7 @@ const server = createKoaServer({
   cors: false,
   controllers: [__dirname + '/controller/*.ts'],
   authorizationChecker,
+  currentUserChecker,
 });
 
 export const io = IO(server);

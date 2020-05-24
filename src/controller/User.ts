@@ -11,7 +11,7 @@ import { BaseEntity } from 'typeorm';
 import User from '../entity/User';
 
 @JsonController()
-export default class UserController extends BaseEntity {
+export default class UserController {
   @Authorized()
   @Post('/users')
   async signup(
