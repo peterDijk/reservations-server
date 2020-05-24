@@ -32,6 +32,6 @@
 ### TODO
 
 - user reg > email confirmation
-- check Authorized with roles
+- different kinds of tokens (now with a reset token you can login, with login you can reset)
 - after reset, invalidate token
 - start script > use build target/index.js. ormconfig needs change (naming strategy)

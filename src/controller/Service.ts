@@ -27,7 +27,7 @@ export default class ServiceController {
     return newCheck.save();
   }
 
-  @Authorized(Role.SUPERADMIN)
+  @Authorized(Role.USER)
   @Get('/health/list')
   async getChecks() {
     const checks = await Service.find({

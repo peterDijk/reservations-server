@@ -17,7 +17,7 @@ class Account extends BaseEntity {
   @IsString()
   @MinLength(2)
   @Column('text')
-  Accountname: string;
+  name: string;
 
   @Column('text', { nullable: true })
   accountDescription: string;
