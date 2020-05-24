@@ -34,9 +34,7 @@ export default class LocationController {
       throw new BadRequestError('no administrator with this account');
     }
 
-    const accountAdmin = await User.findOne(account.administrator);
-
-    if (accountAdmin.id !== user.id) {
+    if (account.administrator.id !== user.id) {
       throw new BadRequestError(
         'You are not the administrator of this account',
       );
