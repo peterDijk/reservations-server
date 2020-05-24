@@ -10,6 +10,7 @@ import {
 import { BaseEntity } from 'typeorm';
 import User from '../entity/User';
 import { Role } from '../types';
+import { roleLevels } from '../lib/helpers/roles';
 
 @JsonController()
 export default class UserController {
@@ -34,7 +35,13 @@ export default class UserController {
       );
     }
 
-    const entity = User.create({ firstName, lastName, username, email });
+    const entity = User.create({
+      firstName,
+      lastName,
+      username,
+      email,
+      roles: roleLevels(Role.USER),
+    });
     await entity.setPassword(password);
 
     try {
