@@ -4,6 +4,7 @@ import {
   Column,
   BaseEntity,
   OneToMany,
+  ManyToOne,
 } from 'typeorm';
 import { IsString, MinLength } from 'class-validator';
 import Location from './Location';
@@ -22,7 +23,7 @@ class Account extends BaseEntity {
   @Column('text', { nullable: true })
   accountDescription: string;
 
-  @Column('text')
+  @ManyToOne((type) => User, (user) => user.accounts)
   administrator: User;
 
   @OneToMany((type) => Location, (location) => location.account)

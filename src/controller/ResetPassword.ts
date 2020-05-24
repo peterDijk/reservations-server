@@ -40,10 +40,9 @@ export default class ResetPassword {
       // html: '<strong>and easy to do anywhere, even with Node.js</strong>',
     };
 
-    return { token };
-    // await sgMail.send(msg);
+    await sgMail.send(msg);
 
-    // return { message: `token has been emailed to ${user.email}` };
+    return { message: `token has been emailed to ${user.email}` };
   }
 
   @Post('/reset/:token')

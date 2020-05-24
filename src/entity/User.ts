@@ -1,9 +1,16 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  BaseEntity,
+  OneToMany,
+} from 'typeorm';
 import { IsString, MinLength, IsEmail } from 'class-validator';
 import { Exclude } from 'class-transformer';
 import * as bcrypt from 'bcrypt';
 import logger from '../__init__/logger';
 import { Role } from '../types';
+import Account from './Account';
 
 @Entity()
 class User extends BaseEntity {
@@ -34,14 +41,8 @@ class User extends BaseEntity {
   @Column('text', { nullable: false, default: Role.USER })
   roles: Role[];
 
-  @Column('boolean', { nullable: false, default: false })
-  isAdmin: boolean;
-
-  @Column('boolean', { nullable: false, default: false })
-  isSuperAdmin: boolean;
-
-  //   @OneToMany(_ => Ticket, ticket => ticket.user)
-  //   tickets: Ticket[]
+  @OneToMany((type) => Account, (account) => account.administrator)
+  accounts: Account[];
 
   async setPassword(rawPassword: string) {
     try {

@@ -1,5 +1,12 @@
-import { JsonController, Post, Body, BadRequestError } from 'routing-controllers';
+import {
+  JsonController,
+  Post,
+  Body,
+  BadRequestError,
+} from 'routing-controllers';
 import User from '../entity/User';
+import { roleLevels } from '../lib/helpers/roles';
+import { Role } from '../types';
 
 interface SetupInput {
   password: string;
@@ -18,8 +25,7 @@ export default class SetupController {
     const entity = User.create({
       username: 'superadmin',
       email,
-      isSuperAdmin: true,
-      isAdmin: true,
+      roles: roleLevels(Role.SUPERADMIN),
     });
 
     await entity.setPassword(password);

@@ -9,10 +9,11 @@ import {
 } from 'routing-controllers';
 import { BaseEntity } from 'typeorm';
 import User from '../entity/User';
+import { Role } from '../types';
 
 @JsonController()
 export default class UserController {
-  @Authorized()
+  @Authorized(Role.ADMIN)
   @Post('/users')
   async signup(
     @BodyParam('firstName') firstName: string,
@@ -50,13 +51,13 @@ export default class UserController {
     }
   }
 
-  @Authorized()
+  @Authorized(Role.ADMIN)
   @Get('/users/:id([0-9]+)')
   getUser(@Param('id') id: number) {
     return User.findOne(id);
   }
 
-  @Authorized()
+  @Authorized(Role.ADMIN)
   @Get('/users')
   allUsers() {
     return User.find();
