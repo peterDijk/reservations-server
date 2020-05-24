@@ -16,7 +16,7 @@ class Location extends BaseEntity {
   @IsString()
   @MinLength(2)
   @Column('text')
-  Locationname: string;
+  name: string;
 
   @Column('text')
   capacity: number;
