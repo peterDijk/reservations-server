@@ -12,11 +12,6 @@
 
 ## Endpoints:
 
-
-`POST /setup` 
-- only continues when User count = 0
-- sets up first `superadmin` user with chosen password and email
-
 `POST /users (authorized)` - register new user
 
 `POST /reset`  - sends email to user's emailaddress with token to reset
@@ -28,6 +23,20 @@
 `POST /health/add` - adds check record to database
 
 `GET /health/list` - returns list of health check records
+
+## Controllers
+
+#### Setup
+`POST /setup` 
+- if more than 0 users, throw `Setup is already done`
+- create user `superadmin` with password and email from params
+
+#### User
+`POST /users` 
+- Authorized (Role `admin`)
+- throws if: no username or password in parameters, user or email exists
+- create user with role `user`
+
 
 ### TODO
 

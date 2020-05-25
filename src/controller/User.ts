@@ -14,7 +14,6 @@ import { roleLevels } from '../lib/helpers/roles';
 
 @JsonController()
 export default class UserController {
-  @Authorized(Role.ADMIN)
   @Post('/users')
   async signup(
     @BodyParam('firstName') firstName: string,
