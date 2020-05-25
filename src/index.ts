@@ -2,54 +2,28 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 import 'reflect-metadata';
-import { useKoaServer } from 'routing-controllers';
-import * as Koa from 'koa';
-import { Server } from 'http';
-import { secret } from './__init__/jwt';
+import { createKoaServer } from 'routing-controllers';
 import * as IO from 'socket.io';
-import * as socketIoJwtAuth from 'socketio-jwt-auth';
-import { authorizationChecker } from './lib/helpers/authorizationChecker';
+import {
+  authorizationChecker,
+  currentUserChecker,
+} from './lib/helpers/loginCheckers';
 import logger from './__init__/logger';
 import setupDb from './__init__/db';
-
-import Service from './controller/Service';
-import Login from './controller/Login';
-import User from './controller/User';
-import Setup from './controller/Setup';
-import ResetPassword from './controller/ResetPassword';
-
-const app = new Koa();
-const server = new Server(app.callback());
-export const io = IO(server);
+import socketioInit from './__init__/socketio';
 
 const port = process.env.PORT || 4000;
 
-useKoaServer(app, {
-  cors: true,
-  controllers: [Setup, Service, Login, User, ResetPassword],
-  // controllers: [__dirname + '/controller/*.ts'],
+const server = createKoaServer({
+  cors: false,
+  controllers: [__dirname + '/controller/*.ts'],
   authorizationChecker,
+  currentUserChecker,
 });
 
-io.use(
-  socketIoJwtAuth.authenticate({ secret }, async (payload, done) => {
-    const user = await User.findOne(payload.id);
-    if (user) {
-      done(null, user);
-    } else {
-      done(null, false, `Invalid JWT user ID`);
-    }
-  }),
-);
+export const io = IO(server);
 
-io.on('connect', (socket) => {
-  const name = socket.request.user.firstName;
-  console.log(`User ${name} just connected`);
-
-  socket.on('disconnect', () => {
-    console.log(`User ${name} just disconnected`);
-  });
-});
+socketioInit();
 
 setupDb().then(() => {
   try {

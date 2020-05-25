@@ -4,19 +4,13 @@
 - TypeORM
 - Postgres
 - Heroku release phase (run migrations)
-- store password encrypted with `bcrypt`
+- passwords stored encrypted
 
 ## 
 
 - remember to set environment variable for `JWT_SECRET`
 
 ## Endpoints:
-
-`GET /setup` - only continues when User count = 0 (throws Error when user count > 0)
-
-returns instructions for `POST /setup`
-
-`POST /setup` - sets up first `superadmin` user with chosen password and email
 
 `POST /users (authorized)` - register new user
 
@@ -30,7 +24,29 @@ returns instructions for `POST /setup`
 
 `GET /health/list` - returns list of health check records
 
+## Controllers
+
+#### Setup
+`POST /setup` 
+- if more than 0 users, throw `Setup is already done`
+- create user `superadmin` with password and email from params
+
+#### User
+`POST /users` 
+- throws if: no username or password in parameters, user or email exists
+- create user with role `user`
+
+`GET /users`
+- Authorized (Role `admin`)
+- returns list of all users
+
+`GET /users/:id`
+- Authorized (Role `admin`)
+- returns user of given id
+
 ### TODO
 
-- user registration > email confirmation
-- Koa > use all controllers in folder controller/*.ts
+- user reg > email confirmation
+- different kinds of tokens (now with a reset token you can login, with login you can reset)
+- after reset, invalidate token
+- start script > use build target/index.js. ormconfig needs change (naming strategy)

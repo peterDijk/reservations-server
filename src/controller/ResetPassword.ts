@@ -7,6 +7,7 @@ import {
 } from 'routing-controllers';
 import User from '../entity/User';
 import { sign, verify } from '../__init__/jwt';
+import { sgMail } from '../lib/helpers/sendmail';
 
 interface ResetRequestInput {
   email: string;
@@ -31,8 +32,17 @@ export default class ResetPassword {
 
     const token = sign(jwtObject, '30m');
 
-    return { token };
-    // return { message: `token has been emailed to ${user.email}` };
+    const msg = {
+      to: user.email,
+      from: 'peter@petervandijk.net',
+      subject: 'reservations password reset',
+      text: `use this token to reset: ${token}`,
+      // html: '<strong>and easy to do anywhere, even with Node.js</strong>',
+    };
+
+    await sgMail.send(msg);
+
+    return { message: `token has been emailed to ${user.email}` };
   }
 
   @Post('/reset/:token')

@@ -4,13 +4,20 @@ import { NamingStrategyInterface } from 'typeorm/naming-strategy/NamingStrategyI
 import { snakeCase } from 'typeorm/util/StringUtils';
 import logger from './logger';
 
-export class CustomNamingStrategy extends DefaultNamingStrategy implements NamingStrategyInterface {
+export class CustomNamingStrategy extends DefaultNamingStrategy
+  implements NamingStrategyInterface {
   tableName(targetName: string, userSpecifiedName: string): string {
     return userSpecifiedName ? userSpecifiedName : snakeCase(targetName) + 's';
   }
 
-  columnName(propertyName: string, customName: string, embeddedPrefixes: string[]): string {
-    return snakeCase(embeddedPrefixes.concat(customName ? customName : propertyName).join('_'));
+  columnName(
+    propertyName: string,
+    customName: string,
+    embeddedPrefixes: string[],
+  ): string {
+    return snakeCase(
+      embeddedPrefixes.concat(customName ? customName : propertyName).join('_'),
+    );
   }
 
   columnNameCustomized(customName: string): string {
@@ -23,5 +30,7 @@ export class CustomNamingStrategy extends DefaultNamingStrategy implements Namin
 }
 
 export default async () => {
-  createConnection().then(() => logger.log('info', 'Connected to Postgres with TypeORM'));
+  createConnection().then(() =>
+    logger.log('info', 'Connected to Postgres with TypeORM'),
+  );
 };

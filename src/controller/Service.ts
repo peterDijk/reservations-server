@@ -3,6 +3,8 @@ import { Request } from 'koa';
 import logger from '../__init__/logger';
 
 import Service from '../entity/Service';
+import { sgMail } from '../lib/helpers/sendmail';
+import { Role } from '../types';
 
 @JsonController()
 export default class ServiceController {
@@ -16,7 +18,7 @@ export default class ServiceController {
     };
   }
 
-  @Authorized()
+  @Authorized(Role.SUPERADMIN)
   @Get('/health/add')
   async addCheck() {
     const newCheck = await Service.create({ message: 'health check ok' });
@@ -25,6 +27,7 @@ export default class ServiceController {
     return newCheck.save();
   }
 
+  @Authorized(Role.USER)
   @Get('/health/list')
   async getChecks() {
     const checks = await Service.find({

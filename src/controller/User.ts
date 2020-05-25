@@ -7,11 +7,12 @@ import {
   BodyParam,
   BadRequestError,
 } from 'routing-controllers';
-import { BaseEntity } from 'typeorm';
 import User from '../entity/User';
+import { Role } from '../types';
+import { roleLevels } from '../lib/helpers/roles';
 
 @JsonController()
-export default class UserController extends BaseEntity {
+export default class UserController {
   @Post('/users')
   async signup(
     @BodyParam('firstName') firstName: string,
@@ -23,12 +24,22 @@ export default class UserController extends BaseEntity {
     if (!username || !password) {
       throw new BadRequestError('Provide at least a username and password');
     }
-    const userExists = await User.count({ where: { username } });
+    const userExists = await User.count({
+      where: [{ username }, { email }],
+    });
     if (userExists > 0) {
-      throw new BadRequestError('User with that username already exists');
+      throw new BadRequestError(
+        'User with that username or email already exists',
+      );
     }
 
-    const entity = User.create({ firstName, lastName, username, email });
+    const entity = User.create({
+      firstName,
+      lastName,
+      username,
+      email,
+      roles: roleLevels(Role.USER),
+    });
     await entity.setPassword(password);
 
     try {
@@ -45,13 +56,13 @@ export default class UserController extends BaseEntity {
     }
   }
 
-  @Authorized()
+  @Authorized(Role.ADMIN)
   @Get('/users/:id([0-9]+)')
   getUser(@Param('id') id: number) {
     return User.findOne(id);
   }
 
-  @Authorized()
+  @Authorized(Role.ADMIN)
   @Get('/users')
   allUsers() {
     return User.find();
