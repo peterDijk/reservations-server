@@ -4,6 +4,8 @@ import {
   Column,
   BaseEntity,
   OneToMany,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
 import { IsString, MinLength, IsEmail } from 'class-validator';
 import { Exclude } from 'class-transformer';
@@ -42,7 +44,8 @@ class User extends BaseEntity {
   @Column('text', { nullable: false, default: Role.USER })
   roles: Role[];
 
-  @OneToMany((type) => Account, (account) => account.administrator)
+  @ManyToMany((type) => Account, (account) => account.administrator)
+  @JoinTable()
   accounts: Account[];
 
   @OneToMany((type) => Reservation, (reservation) => reservation.user)

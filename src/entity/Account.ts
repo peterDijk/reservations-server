@@ -5,6 +5,7 @@ import {
   BaseEntity,
   OneToMany,
   ManyToOne,
+  ManyToMany,
 } from 'typeorm';
 import { IsString, MinLength } from 'class-validator';
 import Location from './Location';
@@ -25,6 +26,9 @@ class Account extends BaseEntity {
 
   @ManyToOne((type) => User, (user) => user.accounts)
   administrator: User;
+
+  @ManyToMany((type) => User, (user) => user.accounts)
+  users: User[];
 
   @OneToMany((type) => Location, (location) => location.account)
   locations: Location[];
