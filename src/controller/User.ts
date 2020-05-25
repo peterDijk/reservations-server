@@ -7,7 +7,6 @@ import {
   BodyParam,
   BadRequestError,
 } from 'routing-controllers';
-import { BaseEntity } from 'typeorm';
 import User from '../entity/User';
 import { Role } from '../types';
 import { roleLevels } from '../lib/helpers/roles';

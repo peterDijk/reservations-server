@@ -33,10 +33,16 @@
 
 #### User
 `POST /users` 
-- Authorized (Role `admin`)
 - throws if: no username or password in parameters, user or email exists
 - create user with role `user`
 
+`GET /users`
+- Authorized (Role `admin`)
+- returns list of all users
+
+`GET /users/:id`
+- Authorized (Role `admin`)
+- returns user of given id
 
 ### TODO
 
