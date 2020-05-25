@@ -43,6 +43,14 @@ export default class ReservationController {
       throw new BadRequestError('No location with that ID');
     }
 
+    console.log(user.accounts);
+
+    if (
+      !user.accounts.map((account) => account.id).includes(location.account.id)
+    ) {
+      throw new BadRequestError('User is not a member of the related account');
+    }
+
     const dateMomentObject = moment(date, 'DD-MM-YYYY');
     const dateObject = new Date(
       dateMomentObject._pf.parsedDateParts[0],

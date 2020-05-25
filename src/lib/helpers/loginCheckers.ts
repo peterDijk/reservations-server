@@ -36,7 +36,7 @@ export const currentUserChecker = async (action: Action) => {
 
     if (token) {
       const { id } = verify(token);
-      return User.findOne(id);
+      return User.findOne(id, { relations: ['accounts'] });
     }
   }
   return undefined;
