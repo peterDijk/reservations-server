@@ -6,6 +6,7 @@ import {
   BodyParam,
   BadRequestError,
   CurrentUser,
+  Get,
 } from 'routing-controllers';
 const moment = require('moment');
 import { Role } from '../types';
@@ -15,6 +16,7 @@ import User from '../entity/User';
 import TimeUnit from '../entity/TimeUnit';
 import Reservation from '../entity/Reservation';
 import logger from '../__init__/logger';
+import { In } from 'typeorm';
 
 @JsonController()
 export default class ReservationController {
@@ -57,5 +59,22 @@ export default class ReservationController {
     });
 
     return newReservation.save();
+  }
+
+  @Get('/reservations/:locationId')
+  async getReservations(@Param('locationId') locationId: number) {
+    const location = await Location.findOne(locationId, {
+      relations: ['timeUnits'],
+    });
+
+    if (!location) {
+      throw new BadRequestError('No location found with that ID');
+    }
+
+    const reservations = await Reservation.find({
+      where: { timeUnit: In(location.timeUnits.map((unit) => unit.id)) },
+      relations: ['timeUnit'],
+    });
+    return { reservations };
   }
 }
