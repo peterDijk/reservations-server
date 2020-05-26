@@ -4,8 +4,8 @@ accounts have locations, which have time units with certain capacity, reservatio
 ## Stack keywords
 - TypeORM
 - Postgres
-- Heroku release phase (run migrations)
-- passwords stored encrypted
+- Heroku release phase runs migrations
+- bcrypt encryption for passwords
 
 
 ## Controllers
@@ -56,8 +56,28 @@ accounts have locations, which have time units with certain capacity, reservatio
 - returns a list of all accounts, including the related administrators
 
 ### Location
+`POST /accounts/:accountId/locations`
+- Authorized (Role `account_admin`)
+- parameters: `name`
+- throws if: account does not exist, current user is not account admin
+- returns the saved location
+
+`POST /locations/:locationId/timeunits`
+- Authorized (Role `account_admin`)
+- parameters: `name, capacity`
+- throws if: location not exists, account linked to location not exists, account has no admin, current user is not the account admin
+- returns the saved time unit
 
 ### Reservation
+`POST /reservations/:timeUnitId`
+- Authorized (Role `user`)
+- parameters: `date`
+- throws if: no timeunit with id exists, current user is not a member of the related account
+- returns the new reservation
+
+`GET /reservations/:locationId`
+- throws if: no location found
+- returns list of reservations linked to the requested locationId
 
 ### Service
 `GET /health`
