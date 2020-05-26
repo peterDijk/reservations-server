@@ -23,7 +23,7 @@ export default class ReservationController {
   @Authorized(Role.USER)
   @Post('/reservations/:timeUnitId/')
   async addReservation(
-    @CurrentUser() user: User,
+    @CurrentUser() currentUser: User,
     @Param('timeUnitId') timeUnitId: number,
     @BodyParam('date') date: string,
   ) {
@@ -36,7 +36,7 @@ export default class ReservationController {
     }
 
     if (
-      !user.accounts
+      !currentUser.accounts
         .map((account) => account.id)
         .includes(timeUnit.location.account.id)
     ) {
@@ -51,9 +51,9 @@ export default class ReservationController {
     );
 
     const newReservation = await Reservation.create({
-      date: dateObject,
-      user,
+      user: currentUser,
       timeUnit,
+      date: dateMomentObject,
     });
 
     return newReservation.save();
