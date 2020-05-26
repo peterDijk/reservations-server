@@ -4,6 +4,8 @@ import {
   Column,
   BaseEntity,
   OneToMany,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
 import { IsString, MinLength, IsEmail } from 'class-validator';
 import { Exclude } from 'class-transformer';
@@ -11,6 +13,7 @@ import * as bcrypt from 'bcrypt';
 import logger from '../__init__/logger';
 import { Role } from '../types';
 import Account from './Account';
+import Reservation from './Reservation';
 
 @Entity()
 class User extends BaseEntity {
@@ -41,8 +44,12 @@ class User extends BaseEntity {
   @Column('text', { nullable: false, default: Role.USER })
   roles: Role[];
 
-  @OneToMany((type) => Account, (account) => account.administrator)
+  @ManyToMany((type) => Account, (account) => account.administrator)
+  @JoinTable()
   accounts: Account[];
+
+  @OneToMany((type) => Reservation, (reservation) => reservation.user)
+  reservations: Reservation[];
 
   async setPassword(rawPassword: string) {
     try {

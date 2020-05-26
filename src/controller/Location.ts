@@ -7,10 +7,14 @@ import {
   BadRequestError,
   CurrentUser,
 } from 'routing-controllers';
+const moment = require('moment');
 import { Role } from '../types';
 import Account from '../entity/Account';
 import Location from '../entity/Location';
 import User from '../entity/User';
+import TimeUnit from '../entity/TimeUnit';
+import Reservation from '../entity/Reservation';
+import logger from '../__init__/logger';
 
 @JsonController()
 export default class LocationController {
@@ -20,7 +24,6 @@ export default class LocationController {
     @CurrentUser() user: User,
     @Param('accountId') accountId: number,
     @BodyParam('name') name: string,
-    @BodyParam('capacity') capacity: number,
   ) {
     const account = await Account.findOne(accountId, {
       relations: ['administrator'],
@@ -40,7 +43,46 @@ export default class LocationController {
       );
     }
 
-    const newLocation = Location.create({ name, capacity, account });
+    const newLocation = Location.create({ name, account });
     return newLocation.save();
+  }
+
+  @Authorized(Role.ACCOUNT_ADMIN)
+  @Post('/locations/:locationId/timeunits')
+  async addTimeUnit(
+    @CurrentUser() user: User,
+    @Param('locationId') locationId: number,
+    @BodyParam('name') name: string,
+    @BodyParam('capacity') capacity: number,
+  ) {
+    const location = await Location.findOne(locationId, {
+      relations: ['account'],
+    });
+
+    if (!location) {
+      throw new BadRequestError('No location exists with that ID');
+    }
+
+    const account = await Account.findOne(location.account.id, {
+      relations: ['administrator'],
+    });
+
+    if (!account) {
+      throw new BadRequestError('No account exists with that ID');
+    }
+
+    if (!account.administrator) {
+      throw new BadRequestError('no administrator with this account');
+    }
+
+    if (account.administrator.id !== user.id) {
+      throw new BadRequestError(
+        'You are not the administrator of this account',
+      );
+    }
+
+    const newTimeUnit = await TimeUnit.create({ name, capacity, location });
+
+    return newTimeUnit.save();
   }
 }

@@ -8,8 +8,6 @@
 
 ## 
 
-- remember to set environment variable for `JWT_SECRET`
-
 ## Endpoints:
 
 `POST /users (authorized)` - register new user
@@ -46,7 +44,9 @@
 
 ### TODO
 
+- roles to own table manytomany
 - user reg > email confirmation
-- different kinds of tokens (now with a reset token you can login, with login you can reset)
+- datecreated + datemodified column add to models
+- become member of account endpoint (using a token)
 - after reset, invalidate token
 - start script > use build target/index.js. ormconfig needs change (naming strategy)
