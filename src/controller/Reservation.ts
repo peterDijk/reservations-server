@@ -24,7 +24,7 @@ export default class ReservationController {
   @Post('/reservations/:timeUnitId/')
   async addReservation(
     @CurrentUser() user: User,
-    @BodyParam('timeUnitId') timeUnitId: number,
+    @Param('timeUnitId') timeUnitId: number,
     @BodyParam('date') date: string,
   ) {
     const timeUnit = await TimeUnit.findOne(timeUnitId, {
@@ -35,18 +35,10 @@ export default class ReservationController {
       throw new BadRequestError('No time unit found with that ID');
     }
 
-    const location = await Location.findOne(timeUnit.location.id, {
-      relations: ['account'],
-    });
-
-    if (!location) {
-      throw new BadRequestError('No location with that ID');
-    }
-
-    console.log(user.accounts);
-
     if (
-      !user.accounts.map((account) => account.id).includes(location.account.id)
+      !user.accounts
+        .map((account) => account.id)
+        .includes(timeUnit.location.account.id)
     ) {
       throw new BadRequestError('User is not a member of the related account');
     }
@@ -57,8 +49,6 @@ export default class ReservationController {
       dateMomentObject._pf.parsedDateParts[1],
       dateMomentObject._pf.parsedDateParts[2],
     );
-
-    logger.info(dateObject);
 
     const newReservation = await Reservation.create({
       date: dateObject,

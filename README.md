@@ -46,6 +46,7 @@
 
 ### TODO
 
+- roles to own table manytomany
 - user reg > email confirmation
 - different kinds of tokens (now with a reset token you can login, with login you can reset)
 - after reset, invalidate token
