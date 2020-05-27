@@ -11,9 +11,9 @@ import { IsString, MinLength, IsEmail } from 'class-validator';
 import { Exclude } from 'class-transformer';
 import * as bcrypt from 'bcrypt';
 import logger from '../__init__/logger';
-import { Role } from '../types';
 import Account from './Account';
 import Reservation from './Reservation';
+import { Role } from '../types';
 
 @Entity()
 class User extends BaseEntity {

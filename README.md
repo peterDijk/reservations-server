@@ -17,8 +17,9 @@ accounts have locations, which have time units with certain capacity, reservatio
 
 ### User
 `POST /users` 
+- parameters: `username, password, firstName, lastName, email`
 - throws if: no username or password in parameters, user or email exists
-- create user with role `user`
+- returns created user with role `user`
 
 `GET /users`
 - Authorized (Role `admin`)
@@ -43,6 +44,7 @@ accounts have locations, which have time units with certain capacity, reservatio
 
 ### Login
 `POST /login`
+- parameters: `username, password`
 - throws if: no user with username found, `checkPassword` method on User entity (bcrypt verify of raw vs stored encrypted string)
 - returns: JWT object with `id` (user.id) and `roles`
 

@@ -21,8 +21,10 @@ export default class UserController {
     @BodyParam('password') password: string,
     @BodyParam('email') email: string,
   ) {
-    if (!username || !password) {
-      throw new BadRequestError('Provide at least a username and password');
+    if (!username || !password || !email) {
+      throw new BadRequestError(
+        'Provide at least a username, password and email',
+      );
     }
     const userExists = await User.count({
       where: [{ username }, { email }],

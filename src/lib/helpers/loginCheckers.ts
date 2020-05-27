@@ -1,8 +1,9 @@
 import { Action, BadRequestError } from 'routing-controllers';
 import { verify } from '../../__init__/jwt';
-import { Role } from '../../types';
+// import { Role } from '../../types';
 import User from '../../entity/User';
 import logger from '../../__init__/logger';
+import { Role } from '../../types';
 
 export const authorizationChecker = async (action: Action, roles: Role[]) => {
   const header: string = action.request.headers.authorization;

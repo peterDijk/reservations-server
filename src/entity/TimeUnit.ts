@@ -9,11 +9,6 @@ import {
 import Location from './Location';
 import Reservation from './Reservation';
 
-interface TimeUnitInterface {
-  name: string;
-  capacity: number;
-}
-
 @Entity()
 export default class TimeUnit extends BaseEntity {
   @PrimaryGeneratedColumn()
