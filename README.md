@@ -51,6 +51,7 @@ accounts have locations, which have time units with certain capacity, reservatio
 ### Account
 `POST /accounts` 
 - Authorized (Role `user`)
+- parameters: `name, desc`
 - creates a new account. Sets the account administrator to the current logged in user
 - change to the current user's `roles` -> adds Account Admin role
 
