@@ -59,22 +59,22 @@ accounts have locations, which have time units with certain capacity, reservatio
 - returns a list of all accounts, including the related administrators
 
 ### Location
-`POST /accounts/:accountId/locations`
+`POST /accounts/locations`
 - Authorized (Role `account_admin`)
-- parameters: `name`
+- parameters: `accountId, name`
 - throws if: account does not exist, current user is not account admin
 - returns the saved location
 
-`POST /locations/:locationId/timeunits`
+`POST /locations/timeunits`
 - Authorized (Role `account_admin`)
-- parameters: `name, capacity`
+- parameters: `locationId, name, capacity`
 - throws if: location not exists, account linked to location not exists, account has no admin, current user is not the account admin
 - returns the saved time unit
 
 ### Reservation
-`POST /reservations/:timeUnitId`
+`POST /reservations/`
 - Authorized (Role `user`)
-- parameters: `date`
+- parameters: `timeUnitId, date`
 - throws if: no timeunit with id exists, current user is not a member of the related account
 - returns the new reservation
 
@@ -88,9 +88,8 @@ accounts have locations, which have time units with certain capacity, reservatio
 
 ### TODO
 
-- roles to own table manytomany
+- become member of account endpoint (using a token)
 - user reg > email confirmation
 - datecreated + datemodified column add to models
-- become member of account endpoint (using a token)
 - after reset, invalidate token
 - start script > use build target/index.js. ormconfig needs change (naming strategy)

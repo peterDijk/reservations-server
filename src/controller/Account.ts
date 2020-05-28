@@ -20,8 +20,6 @@ export default class AccountController {
     @BodyParam('name') name: string,
     @BodyParam('desc') desc: string,
   ) {
-    // const user = await User.findOne(currentUser);
-
     const newAccount = await Account.create({
       name,
       accountDescription: desc,

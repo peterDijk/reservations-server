@@ -19,10 +19,10 @@ import logger from '../__init__/logger';
 @JsonController()
 export default class LocationController {
   @Authorized(Role.ACCOUNT_ADMIN)
-  @Post('/accounts/:accountId/locations')
+  @Post('/accounts/locations')
   async createLocation(
     @CurrentUser() user: User,
-    @Param('accountId') accountId: number,
+    @BodyParam('accountId') accountId: number,
     @BodyParam('name') name: string,
   ) {
     const account = await Account.findOne(accountId, {
@@ -48,10 +48,10 @@ export default class LocationController {
   }
 
   @Authorized(Role.ACCOUNT_ADMIN)
-  @Post('/locations/:locationId/timeunits')
+  @Post('/locations/timeunits')
   async addTimeUnit(
     @CurrentUser() user: User,
-    @Param('locationId') locationId: number,
+    @BodyParam('locationId') locationId: number,
     @BodyParam('name') name: string,
     @BodyParam('capacity') capacity: number,
   ) {

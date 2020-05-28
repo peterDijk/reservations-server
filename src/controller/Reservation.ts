@@ -21,10 +21,10 @@ import { In } from 'typeorm';
 @JsonController()
 export default class ReservationController {
   @Authorized(Role.USER)
-  @Post('/reservations/:timeUnitId/')
+  @Post('/reservations/')
   async addReservation(
     @CurrentUser() currentUser: User,
-    @Param('timeUnitId') timeUnitId: number,
+    @BodyParam('timeUnitId') timeUnitId: number,
     @BodyParam('date') date: string,
   ) {
     const timeUnit = await TimeUnit.findOne(timeUnitId, {
