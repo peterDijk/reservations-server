@@ -46,6 +46,10 @@ class User extends BaseEntity {
 
   @ManyToMany((type) => Account, (account) => account.administrator)
   @JoinTable()
+  adminAccounts: Account[];
+
+  @ManyToMany((type) => Account, (account) => account.members)
+  @JoinTable()
   accounts: Account[];
 
   @OneToMany((type) => Reservation, (reservation) => reservation.user)

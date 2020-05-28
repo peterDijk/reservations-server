@@ -5,11 +5,13 @@ import {
   Post,
   Get,
   BodyParam,
+  BadRequestError,
 } from 'routing-controllers';
 import User from '../entity/User';
 import Account from '../entity/Account';
 import { Role } from '../types';
 import { roleLevels } from '../lib/helpers/roles';
+import logger from '../__init__/logger';
 
 @JsonController()
 export default class AccountController {
@@ -32,6 +34,24 @@ export default class AccountController {
     await currentUser.save();
 
     return saveAccount;
+  }
+
+  @Authorized(Role.USER)
+  @Post('/accounts/members')
+  async addMember(
+    @CurrentUser() currentUser: User,
+    @BodyParam('accountId') accountId: number,
+  ) {
+    const account = await Account.findOne(accountId, {
+      relations: ['members'],
+    });
+
+    if (!account) {
+      throw new BadRequestError('No Account found with that id');
+    }
+
+    account.members.push(currentUser);
+    return account.save();
   }
 
   @Get('/accounts')

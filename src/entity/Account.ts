@@ -28,7 +28,7 @@ class Account extends BaseEntity {
   administrator: User;
 
   @ManyToMany((type) => User, (user) => user.accounts)
-  users: User[];
+  members: User[];
 
   @OneToMany((type) => Location, (location) => location.account)
   locations: Location[];
