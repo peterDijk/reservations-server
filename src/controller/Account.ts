@@ -41,6 +41,7 @@ export default class AccountController {
   async addMember(
     @CurrentUser() currentUser: User,
     @BodyParam('accountId') accountId: number,
+    @BodyParam('inviteToken') inviteToken?: string,
   ) {
     const account = await Account.findOne(accountId, {
       relations: ['members'],
@@ -48,6 +49,12 @@ export default class AccountController {
 
     if (!account) {
       throw new BadRequestError('No Account found with that id');
+    }
+
+    if (account.invitationRequired && !inviteToken) {
+      throw new BadRequestError(
+        'An invitation token is required for this account',
+      );
     }
 
     account.members.push(currentUser);
