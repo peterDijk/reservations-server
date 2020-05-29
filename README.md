@@ -101,8 +101,9 @@ accounts have locations, which have time units with certain capacity, reservatio
 
 ### TODO
 
-- become member of account endpoint (using a token)
 - user reg > email confirmation
 - datecreated + datemodified column add to models
 - after reset, invalidate token
+- new reservations > validate days in advance, remaining capacity, etc
+
 - start script > use build target/index.js. ormconfig needs change (naming strategy)
