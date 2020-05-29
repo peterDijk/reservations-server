@@ -101,6 +101,6 @@ export default class AccountController {
 
   @Get('/accounts')
   async listAccounts() {
-    return Account.find({ relations: ['administrator'] });
+    return Account.find({ relations: ['administrator', 'members'] });
   }
 }
