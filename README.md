@@ -66,7 +66,7 @@ accounts have locations, which have time units with certain capacity, reservatio
 `POST /accounts/members`
 - Authorized (Role `user`)
 - parameters: `accountId, inviteToken (optional)`
-- throws if: no account, no token but required for account
+- throws if: no account, no token but required for account, given token not same as account-invite-token
 
 `GET /accounts`
 - returns a list of all accounts, including the related administrators
