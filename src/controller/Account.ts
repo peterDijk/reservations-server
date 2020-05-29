@@ -11,7 +11,7 @@ import User from '../entity/User';
 import Account from '../entity/Account';
 import { Role } from '../types';
 import { roleLevels } from '../lib/helpers/roles';
-import logger from '../__init__/logger';
+import generateInvite from '../lib/helpers/generateInvite';
 
 @JsonController()
 export default class AccountController {
@@ -36,6 +36,40 @@ export default class AccountController {
     return saveAccount;
   }
 
+  @Authorized(Role.ACCOUNT_ADMIN)
+  @Post('/accounts/generateInvite')
+  async newInviteToken(
+    @CurrentUser() currentUser: User,
+    @BodyParam('accountId') accountId: number,
+  ) {
+    const account = await Account.findOne(accountId, {
+      relations: ['members', 'administrator'],
+    });
+
+    if (!account) {
+      throw new BadRequestError('No Account found with that id');
+    }
+
+    if (account.administrator.id !== currentUser.id) {
+      throw new BadRequestError(
+        'You are not the administrator of this account',
+      );
+    }
+
+    const newInviteToken = generateInvite();
+
+    const checkGenerated = (token) => {
+      if (account.invitationToken === token) {
+        return checkGenerated(generateInvite());
+      }
+      account.invitationToken = token;
+      return;
+    };
+
+    checkGenerated(newInviteToken);
+    return account.save();
+  }
+
   @Authorized(Role.USER)
   @Post('/accounts/members')
   async addMember(
@@ -51,10 +85,14 @@ export default class AccountController {
       throw new BadRequestError('No Account found with that id');
     }
 
-    if (account.invitationRequired && !inviteToken) {
+    if (account.invitationToken && !inviteToken) {
       throw new BadRequestError(
         'An invitation token is required for this account',
       );
+    }
+
+    if (account.invitationToken !== inviteToken) {
+      throw new BadRequestError('Invalid invite token');
     }
 
     account.members.push(currentUser);

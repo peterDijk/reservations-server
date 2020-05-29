@@ -55,6 +55,19 @@ accounts have locations, which have time units with certain capacity, reservatio
 - creates a new account. Sets the account administrator to the current logged in user
 - change to the current user's `roles` -> adds Account Admin role
 
+`POST /accounts/generateInvite`
+- Authorized (Role `account_admin`)
+- parameters: `accountId`
+- throws if: no account, not the account admin
+- generates random 4 letter/number string
+ - stores it with the account
+ - returns saved account
+
+`POST /accounts/members`
+- Authorized (Role `user`)
+- parameters: `accountId, inviteToken (optional)`
+- throws if: no account, no token but required for account
+
 `GET /accounts`
 - returns a list of all accounts, including the related administrators
 

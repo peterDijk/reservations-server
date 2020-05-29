@@ -30,8 +30,8 @@ class Account extends BaseEntity {
   @ManyToMany((type) => User, (user) => user.accounts)
   members: User[];
 
-  @Column('boolean', { nullable: false, default: false })
-  invitationRequired: boolean;
+  @Column('text', { nullable: true, default: null })
+  invitationToken: string;
 
   @OneToMany((type) => Location, (location) => location.account)
   locations: Location[];
