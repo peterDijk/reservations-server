@@ -22,6 +22,10 @@ export default class AccountController {
     @BodyParam('name') name: string,
     @BodyParam('desc') desc: string,
   ) {
+    if (!name || !desc) {
+      throw new BadRequestError('Provide name, desc');
+    }
+
     const newAccount = await Account.create({
       name,
       accountDescription: desc,
@@ -43,7 +47,7 @@ export default class AccountController {
     @BodyParam('accountId') accountId: number,
   ) {
     if (!accountId) {
-      throw new BadRequestError('Provide a account Id');
+      throw new BadRequestError('Provide an account ID');
     }
 
     const account = await Account.findOne(accountId, {
@@ -81,6 +85,10 @@ export default class AccountController {
     @BodyParam('accountId') accountId: number,
     @BodyParam('inviteToken') inviteToken?: string,
   ) {
+    if (!accountId) {
+      throw new BadRequestError('Provide accountId');
+    }
+
     const account = await Account.findOne(accountId, {
       relations: ['members'],
     });

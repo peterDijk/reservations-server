@@ -25,6 +25,9 @@ export default class LocationController {
     @BodyParam('accountId') accountId: number,
     @BodyParam('name') name: string,
   ) {
+    if (!accountId) {
+      throw new BadRequestError('Provide a account ID');
+    }
     const account = await Account.findOne(accountId, {
       relations: ['administrator'],
     });
@@ -55,6 +58,10 @@ export default class LocationController {
     @BodyParam('name') name: string,
     @BodyParam('capacity') capacity: number,
   ) {
+    if (!locationId || !capacity || !name) {
+      throw new BadRequestError('Provide a name, capacity and locationId');
+    }
+
     const location = await Location.findOne(locationId, {
       relations: ['account'],
     });

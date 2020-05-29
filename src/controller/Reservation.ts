@@ -27,6 +27,9 @@ export default class ReservationController {
     @BodyParam('timeUnitId') timeUnitId: number,
     @BodyParam('date') date: string,
   ) {
+    if (!timeUnitId || !date) {
+      throw new BadRequestError('Provide date, timeUnitId');
+    }
     const timeUnit = await TimeUnit.findOne(timeUnitId, {
       relations: ['location', 'location.account'],
     });

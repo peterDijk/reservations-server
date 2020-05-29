@@ -21,6 +21,10 @@ interface ResetPasswdInput {
 export default class ResetPassword {
   @Post('/reset')
   async requestReset(@Body() { email }: ResetRequestInput) {
+    if (!email) {
+      throw new BadRequestError('Provide email');
+    }
+
     const user = await User.findOne({ where: { email } });
     if (!user) {
       throw new BadRequestError('No user exists with that email');
@@ -50,6 +54,10 @@ export default class ResetPassword {
     @Param('token') token: string,
     @Body() { password }: ResetPasswdInput,
   ) {
+    if (!password) {
+      throw new BadRequestError('Provide a new password');
+    }
+
     const jwtPayload = verify(token);
 
     if (!jwtPayload) {
