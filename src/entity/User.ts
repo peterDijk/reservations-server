@@ -44,8 +44,7 @@ class User extends BaseEntity {
   @Column('text', { nullable: false, default: Role.USER })
   roles: Role[];
 
-  @ManyToMany((type) => Account, (account) => account.administrator)
-  @JoinTable()
+  @OneToMany((type) => Account, (account) => account.administrator)
   adminAccounts: Account[];
 
   @ManyToMany((type) => Account, (account) => account.members)
