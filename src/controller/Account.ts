@@ -42,6 +42,10 @@ export default class AccountController {
     @CurrentUser() currentUser: User,
     @BodyParam('accountId') accountId: number,
   ) {
+    if (!accountId) {
+      throw new BadRequestError('Provide a account Id');
+    }
+
     const account = await Account.findOne(accountId, {
       relations: ['members', 'administrator'],
     });
@@ -56,13 +60,13 @@ export default class AccountController {
       );
     }
 
-    const newInviteToken = generateInvite();
+    const newInviteToken = generateInvite().toLowerCase();
 
-    const checkGenerated = (token) => {
-      if (account.invitationToken === token) {
+    const checkGenerated = (token: string) => {
+      if (account.invitationToken.toLowerCase() === token) {
         return checkGenerated(generateInvite());
       }
-      account.invitationToken = token;
+      account.invitationToken = token.toLowerCase();
       return;
     };
 
@@ -91,7 +95,7 @@ export default class AccountController {
       );
     }
 
-    if (account.invitationToken !== inviteToken) {
+    if (account.invitationToken !== inviteToken.toLowerCase()) {
       throw new BadRequestError('Invalid invite token');
     }
 
