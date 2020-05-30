@@ -6,6 +6,7 @@ import {
   Get,
   BodyParam,
   BadRequestError,
+  Param,
 } from 'routing-controllers';
 import User from '../entity/User';
 import Account from '../entity/Account';
@@ -111,8 +112,17 @@ export default class AccountController {
     return account.save();
   }
 
+  // @Authorized(Role.USER)
   @Get('/accounts')
   async listAccounts() {
+    return Account.find({
+      relations: ['administrator', 'locations'],
+    });
+  }
+
+  // @Authorized(Role.USER)
+  @Get('/accounts/:id')
+  async listOneAccount(@Param('id') id: number) {
     return Account.find({
       relations: [
         'administrator',
