@@ -61,7 +61,10 @@ export default class UserController {
   @Authorized(Role.ADMIN)
   @Get('/users/:id([0-9]+)')
   getUser(@Param('id') id: number) {
-    return User.findOne(id);
+    if (!id) {
+      throw new BadRequestError('Provide an ID');
+    }
+    return User.findOne(id, { relations: ['reservations', 'accounts'] });
   }
 
   @Authorized(Role.ADMIN)

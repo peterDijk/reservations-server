@@ -64,6 +64,10 @@ export default class ReservationController {
 
   @Get('/reservations/:locationId')
   async getReservations(@Param('locationId') locationId: number) {
+    if (!locationId) {
+      throw new BadRequestError('Provide a locationId');
+    }
+
     const location = await Location.findOne(locationId, {
       relations: ['timeUnits'],
     });
@@ -74,7 +78,7 @@ export default class ReservationController {
 
     const reservations = await Reservation.find({
       where: { timeUnit: In(location.timeUnits.map((unit) => unit.id)) },
-      relations: ['timeUnit'],
+      relations: ['timeUnit', 'user'],
     });
     return { reservations };
   }

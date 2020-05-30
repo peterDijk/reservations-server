@@ -5,7 +5,7 @@ module.exports = {
    url: process.env.DATABASE_URL ||
       'postgres://postgres:secret@localhost:5432/postgres',
    synchronize: false,
-   logging: false,
+   logging: true,
    namingStrategy: new CustomNamingStrategy(),
    entities: ['src/entity/**/*.ts'],
    migrations: ['src/migration/**/*.ts'],

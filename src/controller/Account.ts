@@ -113,6 +113,15 @@ export default class AccountController {
 
   @Get('/accounts')
   async listAccounts() {
-    return Account.find({ relations: ['administrator', 'members'] });
+    return Account.find({
+      relations: [
+        'administrator',
+        'members',
+        'locations',
+        'locations.timeUnits',
+        'locations.timeUnits.reservations',
+        'locations.timeUnits.reservations.user',
+      ],
+    });
   }
 }
