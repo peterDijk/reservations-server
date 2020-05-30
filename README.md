@@ -104,6 +104,11 @@ accounts have locations, which have time units with certain capacity, reservatio
 - user reg > email confirmation
 - datecreated + datemodified column add to models
 - after reset, invalidate token
+- user: update, delete endpoints
+- account: update, delete endpoints
+- location: update, delete endpoints
+- reservation: delete endpoint
+
 - new reservations > validate days in advance, remaining capacity, etc
 
 - start script > use build target/index.js. ormconfig needs change (naming strategy)
